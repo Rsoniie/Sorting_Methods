@@ -1,0 +1,82 @@
+*********SC = O(N) *********TC = O(NLOGN)*******************
+
+
+
+#include <bits/stdc++.h> 
+
+void merge(vector<int>&arr, int s, int e)
+{
+    int mid = (s+e)/2;
+    int len1 = mid-s+1;
+    int len2 = e - mid;
+    int k = s;
+    vector<int> fi(len1);
+    vector<int> ss(len2);
+    for(int i=0;i<len1;i++)
+    {
+       // fi.push_back(arr[i]);
+       fi[i] = arr[k++];
+    }
+    k=mid+1;
+    for(int i=0;i<len2;i++)
+    {
+        //ss.push_back(arr[i]);
+        ss[i] = arr[k++];
+    }
+
+    int i=0;
+    int j = 0;
+     k=s;
+   // vector<int> res;
+    while(i<len1 && j<len2)
+    {
+        if(fi[i] < ss[j])
+        {
+           arr[k++] = fi[i++];
+          // res.push_back(fi[i]);
+          // i++;
+        }
+        else 
+        {
+            arr[k++] = ss[j++];
+            //res.push_back(ss[j]);
+           // j++;
+        }
+    }
+
+
+    while(i < len1)
+    {
+        arr[k++] = fi[i++];
+        //res.push_back(fi[i]);
+        //i++;
+    }
+    while( j < len2)
+    {
+        arr[k++] =  ss[j++];
+       // res.push_back(ss[j]);
+       // j++;
+    }
+
+   // arr = res;
+}
+void solve(vector<int>&arr, int s, int e)
+{
+    if(s >= e)
+    {
+        return;
+    }
+    
+    int mid = (s+e)/2;
+    solve(arr, s, mid);
+    solve(arr, mid+1, e);
+    merge(arr, s,e);
+}
+vector<int> mergeSort(vector<int> &arr)
+{
+    int n = arr.size();
+    solve(arr, 0, n-1);
+
+    return arr;
+
+}
